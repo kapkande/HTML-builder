@@ -27,20 +27,20 @@ function copyFile1(src, dest) {
         data.forEach(element => {
             if (element.isDirectory()) {
                 let copyFiles = new Promise(function(resolve, reject) {
-                        createFolders(path.join(dest), element.name)
-                        resolve();
-                    }).then(
-                        copyFile1(path.join(src, element.name), path.join(dest, element.name)))
-                   
+                    createFolders(path.join(dest), element.name)
+                    resolve();
+                }).then(
+                    copyFile1(path.join(src, element.name), path.join(dest, element.name)))
+
             }
             if (element.isFile()) {
                 fs.copyFile(path.join(src, element.name), path.join(dest, element.name), (err) => {
-                    if (err) {copyFile1(path.join(__dirname, 'assets'), path.join(__dirname, 'project-dist', 'assets'))};
+                    if (err) { copyFile1(path.join(__dirname, 'assets'), path.join(__dirname, 'project-dist', 'assets')) };
                 });
             }
         })
     })
-    
+
 }
 
 function createFolders(src, nameFolder) {
@@ -50,8 +50,9 @@ function createFolders(src, nameFolder) {
 }
 
 createHtml()
-// index.html
+    // index.html
 let text = ''
+
 function createHtml(callBack) {
     if (!callBack) {
         callBack = ''
@@ -66,19 +67,19 @@ function createHtml(callBack) {
     }).then(() => {
         fs.readdir(path.join(__dirname, 'components'), { withFileTypes: true }, (err, data) => {
             if (err) throw err
-         
+
             data.forEach(element => {
-                if(element.name.split('.')[1] != 'html') return;
+                if (element.name.split('.')[1] != 'html') return;
                 fs.readFile(path.join(__dirname, 'template.html'),
                     'utf-8',
                     (err, indexhtml) => {
                         if (err) throw err
                         text = indexhtml;
                         fs.writeFile(path.join(__dirname, 'project-dist', 'index.html'),
-                        text, (err) => {
+                            text, (err) => {
                                 if (err) throw err
                                 fs.readFile(path.join(__dirname, 'components', element.name),
-                                (err, textCss) => {
+                                    (err, textCss) => {
                                         if (err) throw err
                                         text = text.replace(`{{${element.name.split('.')[0]}}}`, textCss);
                                         asd(text)
@@ -90,10 +91,11 @@ function createHtml(callBack) {
         })
 
     })
-   
+
 }
+
 function asd(text) {
-    fs.writeFile(path.join(__dirname, 'project-dist', 'index.html'),text,(err) => {
+    fs.writeFile(path.join(__dirname, 'project-dist', 'index.html'), text, (err) => {
         if (err) throw err
     })
 }
@@ -105,19 +107,20 @@ function readFile() {
     })
 }
 createCss()
+
 function createCss() {
-     fs.readdir(path.join(__dirname, 'style'),  { withFileTypes: true },  (err, data) => {
+    fs.readdir(path.join(__dirname, 'styles'), { withFileTypes: true }, (err, data) => {
         if (err) throw err
-        fs.writeFile(path.join(__dirname, 'project-dist', 'style.css'),'',(err) => {
+        fs.writeFile(path.join(__dirname, 'project-dist', 'style.css'), '', (err) => {
             if (err) throw err
         })
         data.forEach(element => {
-            fs.readFile(path.join(__dirname, 'style' , element.name), 'utf8', (err, data) => {
+            fs.readFile(path.join(__dirname, 'styles', element.name), 'utf8', (err, data) => {
                 if (err) throw err
-                fs.appendFile(path.join(__dirname, 'project-dist', 'style.css'),data,(err) => {
+                fs.appendFile(path.join(__dirname, 'project-dist', 'style.css'), data, (err) => {
                     if (err) throw err
                 })
             })
+        })
     })
-  })
 }
