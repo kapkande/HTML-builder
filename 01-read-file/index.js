@@ -1,8 +1,12 @@
-const path = require('path')
-let linck = path.join(__dirname, 'text.txt')
-    // console.log(linck);
+const path = require('path');
 const fs = require('fs');
-fs.readFile(linck, 'utf-8', (err, data) => {
-    if (err) throw err
-    console.log(data);
-})
+const linckStream = new fs.ReadStream(path.join(__dirname, 'text.txt'), 'utf-8')
+
+function readable() {
+  const data = linckStream.read()
+  if (data) {
+    console.log(data)
+  }
+}
+linckStream.addListener('error', (err) => console.error(err))
+linckStream.addListener('readable', readable)
