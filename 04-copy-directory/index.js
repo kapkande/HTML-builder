@@ -2,9 +2,17 @@ const path = require('path');
 const fs = require('fs');
 
 function mackFolder(n) {
-    fs.mkdir(path.join(__dirname, 'files-copy'), { recursive: true }, err => {
-        if (err) throw err
-   copyFile()
+    fs.mkdir(path.join(__dirname, 'files-copy'), err => {
+        if (err) {
+            fs.rm(path.join(__dirname, 'files-copy'), { recursive: true }, err => {
+                if (err) throw err
+                fs.mkdir(path.join(__dirname, 'files-copy'), err => {
+                    if (err) throw err
+                    copyFile()
+                })
+            })
+        }
+        copyFile()
     });
 }
 mackFolder()
