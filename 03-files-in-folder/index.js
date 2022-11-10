@@ -6,7 +6,7 @@ fs.readdir(path.join(__dirname, 'secret-folder'), (err, data) => {
     data.forEach(element => {
         fs.stat(path.join(__dirname, 'secret-folder', element), (err, data) => {
             if (err) throw err;
-            if (data.isFile()) console.log(`${element.split('.')[0]} - ${element.split('.')[1]} - ${data.size}b`);
+            if (data.isFile()) console.log(`${element.split(element.split('.')[element.split('.').length-1])[0]} - ${element.split('.')[element.split('.').length-1]} - ${data.size}b`);
 
         })
     });
